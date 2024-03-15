@@ -1,6 +1,7 @@
 using System.Reflection;
 using ChatAppWebApi.Hubs;
 using ChatAppWebApi.RabbitMQ;
+using Microsoft.AspNetCore.SignalR;
 using RabbitMQ.Client;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,17 +19,6 @@ builder.Services.AddSignalR(options =>
 {
     
 });
-
-// builder.Services.AddSingleton<IConnection>(provider =>
-// {
-//     var factory = new ConnectionFactory()
-//     {
-//         HostName = "localhost", // Thay đổi thành địa chỉ RabbitMQ của bạn
-//         UserName = "baongoc02",     // Thay đổi nếu cần thiết
-//         Password = "123456"      // Thay đổi nếu cần thiết
-//     };
-//     return factory.CreateConnection();
-// });
 
 builder.Services.AddSingleton<RabbitMQManager>(provider =>
 {
@@ -70,7 +60,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapHub<ChatHub>("/api/chatHub");
+app.MapHub<ChatHub>("/chatHub");
 
 app.MapControllers();
 
